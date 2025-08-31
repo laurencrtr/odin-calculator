@@ -3,6 +3,7 @@ let number2 = ''
 let currentOperator = ''
 let currentFunction  = ''
 let currentNumber = ''
+let operator = ''
 
 function add(a, b) {
     result = a + b
@@ -49,10 +50,6 @@ function backspace() {
 }
 
 function operatorClicked() {
-    if (number1 !== '' && operator !== '' && currentNumber !== ''){
-        calculate()
-    }
-    
     if (number1 === '') {
         number1 = currentNumber
     } else {
@@ -61,7 +58,9 @@ function operatorClicked() {
     currentNumber = ''
 }
 
-function changeOperator(operator) {
+function changeOperator(tempOperator) {
+    operator = tempOperator
+    
     if (operator === '+') {
         currentFunction = add
     } else if (operator === '-') {
@@ -89,11 +88,13 @@ function calculate() {
         currentOperator = ''
         currentFunction  = ''
         currentNumber = ''
+        operator = ''
     } else {
         updateScreen(result)
         number1 = result
         number2 = ''
         currentNumber = ''
+        operator = ''
         return result
     }
 }
@@ -102,6 +103,7 @@ function reset() {
     number1 = ''
     number2 = ''
     currentOperator = ''
+    operator = ''
     currentFunction  = ''
     currentNumber = ''
     screenTopText.textContent = ''
@@ -132,9 +134,15 @@ decButton.addEventListener("click", () => addDecimal('.'))
 const opButtons = document.querySelectorAll('.operatorButton')
 opButtons.forEach((btn) => 
     btn.addEventListener('click', () => {
-        operator = btn.textContent
-        changeOperator(operator)
-        operatorClicked()
+        tempOperator = btn.textContent
+        if (number1 !== '' && operator !== '' && currentNumber !== '') {
+            number2 = currentNumber
+            calculate()
+            changeOperator(tempOperator)
+        } else {
+            changeOperator(tempOperator)
+            operatorClicked()
+        }
     })
 )
 
