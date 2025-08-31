@@ -1,6 +1,8 @@
-let number1
-let number2
-let currentFunction = getFirstNumber
+let number1 = ''
+let number2 = ''
+let currentOperator = ''
+let currentFunction  = ''
+let currentNumber = ''
 
 function add(a, b) {
     result = a + b
@@ -19,48 +21,129 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if (b == 0) {
-        return 'you cannot divide by 0'
+        return 'You cannot divide by 0! Your calculator has been reset!'
     }
-    
     result = a / b
     return result
 }
 
-function getFirstNumber() {
-
+function addToNumber(str) {
+    currentNumber = currentNumber + str
+    updateScreen(currentNumber)
 }
 
-function getOperator() {
-
+function addDecimal(str) {
+    if (currentNumber.includes('.')) {
+        return str
+    } else {
+        currentNumber = currentNumber + str
+    }
+    updateScreen(currentNumber)
 }
 
-function getSecondNumber() {
+function backspace() {
+    if (currentNumber !== '') {
+        currentNumber = currentNumber.slice(0, -1)
+        updateScreen(currentNumber) 
+    }
+}
 
+function operatorClicked() {
+    if (number1 !== '' && operator !== '' && currentNumber !== ''){
+        calculate()
+    }
+    
+    if (number1 === '') {
+        number1 = currentNumber
+    } else {
+        number2 = currentNumber
+    }
+    currentNumber = ''
+}
+
+function changeOperator(operator) {
+    if (operator === '+') {
+        currentFunction = add
+    } else if (operator === '-') {
+        currentFunction = subtract
+    } else if (operator === 'x') {
+        currentFunction = multiply
+    } else if (operator === '/') {
+        currentFunction = divide
+    }
 }
 
 
 function calculate() {
+    number2 = currentNumber
+    
+    number1 = +number1
+    number2 = +number2
+
+
     result = currentFunction(number1, number2)
-    number1 = result
-    return result
+    if (isNaN(result)) {
+        updateScreen(result)
+        number1 = ''
+        number2 = ''
+        currentOperator = ''
+        currentFunction  = ''
+        currentNumber = ''
+    } else {
+        updateScreen(result)
+        number1 = result
+        number2 = ''
+        currentNumber = ''
+        return result
+    }
 }
 
 function reset() {
-    let number1
-    let number2
-    let currentFunction = getFirstNumber
+    number1 = ''
+    number2 = ''
+    currentOperator = ''
+    currentFunction  = ''
+    currentNumber = ''
+    screenTopText.textContent = ''
+    updateScreen(currentNumber)
+}
+
+function updateScreen(showNumber) {
+    screenText.textContent = showNumber
+
+    if (number1 !== '' && number2 !== '') {
+        topString = number1 + ' ' + operator + " " + currentNumber
+        screenTopText.textContent = topString
+    }
 }
 
 
-number1 = 1
-number2 = 3
-x = add(number1, number2)
-console.log(x)
-x = subtract(number1, number2)
-console.log(x)
-x = multiply(number1, number2)
-console.log(x)
-x = divide(number1, number2)
-console.log(x)
-x = divide(number1, 0)
-console.log(x)
+const screenText = document.querySelector('#screen')
+const screenTopText = document.querySelector('#screenTop')
+
+const numberButtons = document.querySelectorAll('.numberButtons')
+numberButtons.forEach((btn) =>
+    btn.addEventListener('click', () => addToNumber(btn.textContent))
+)
+
+const decButton = document.querySelector('.decimalButton');
+decButton.addEventListener("click", () => addDecimal('.'))
+
+const opButtons = document.querySelectorAll('.operatorButton')
+opButtons.forEach((btn) => 
+    btn.addEventListener('click', () => {
+        operator = btn.textContent
+        changeOperator(operator)
+        operatorClicked()
+    })
+)
+
+const equalButton = document.querySelector('#equalButton')
+equalButton.addEventListener('click', () => calculate())
+
+
+const clearButton = document.querySelector('#clearButton')
+clearButton.addEventListener('click', () => reset())
+
+const backButton = document.querySelector('#backButton')
+backButton.addEventListener('click', () => backspace())

@@ -1,3 +1,79 @@
 * {
     background-color: aliceblue;
 }
+
+button {
+    border-radius: 15px;
+}
+
+#screenTop {
+    width: 480px;
+    height: 30px;
+    align-content: flex-end;
+    justify-content: flex-end;
+    text-align: right;
+    margin-bottom: 0px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+    color: gray;
+}
+
+#screen {
+    border-bottom: 2px solid black;
+    width: 480px;
+    height: 50px;
+    align-content: flex-end;
+    justify-content: flex-end;
+    text-align: right;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    font-size: 25px;
+}
+
+#numButtonsDiv {
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color: red; */
+    flex: 3;
+}
+
+#numButtonsDiv button {
+    width: 33.33%;
+    height: 40px;
+}
+
+#middleBox {
+    display: flex;
+    width: 500px;
+}
+
+#operatorButtonsDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#operatorButtonsDiv button {
+    display: flex;
+    flex-direction: column;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+#bottomRowButtons {
+    display: flex;
+    width: 500px;
+    height: 40px;
+}
+
+#clearButton {
+    flex: 3.3;
+    width: 100%;
+}
+
+#equalButton {
+    flex: 1;
+}
