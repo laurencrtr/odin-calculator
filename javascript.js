@@ -29,14 +29,16 @@ function divide(a, b) {
 }
 
 function addToNumber(str) {
-    currentNumber = currentNumber + str
+    if (currentNumber.length <= 20) {
+        currentNumber = currentNumber + str
+    }
     updateScreen(currentNumber)
 }
 
 function addDecimal(str) {
     if (currentNumber.includes('.')) {
         return str
-    } else {
+    } else if (currentNumber.length <= 20) {
         currentNumber = currentNumber + str
     }
     updateScreen(currentNumber)
@@ -147,7 +149,12 @@ opButtons.forEach((btn) =>
 )
 
 const equalButton = document.querySelector('#equalButton')
-equalButton.addEventListener('click', () => calculate())
+equalButton.addEventListener('click', () => {
+    if (number1 !== '' && operator !== '' && currentNumber !== '') {
+        calculate()
+    }
+}
+)
 
 
 const clearButton = document.querySelector('#clearButton')
