@@ -148,6 +148,23 @@ opButtons.forEach((btn) =>
     })
 )
 
+const minusButton = document.querySelector('.minusButton')
+minusButton.addEventListener('click', () => {
+    if (currentNumber === '') {
+        addToNumber('-')
+    } else {
+        tempOperator = '-'
+        if (number1 !== '' && operator !== '' && currentNumber !== '') {
+            number2 = currentNumber
+            calculate()
+            changeOperator(tempOperator)
+        } else {
+            changeOperator(tempOperator)
+            operatorClicked()
+    }
+}
+})
+
 const equalButton = document.querySelector('#equalButton')
 equalButton.addEventListener('click', () => {
     if (number1 !== '' && operator !== '' && currentNumber !== '') {
@@ -155,7 +172,6 @@ equalButton.addEventListener('click', () => {
     }
 }
 )
-
 
 const clearButton = document.querySelector('#clearButton')
 clearButton.addEventListener('click', () => reset())
